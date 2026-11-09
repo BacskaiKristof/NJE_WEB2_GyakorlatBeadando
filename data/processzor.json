@@ -1,0 +1,222 @@
+[
+    {
+        "id": 1,
+        "gyarto": "AMD",
+        "tipus": "Athlon 64 X2 QL64"
+    },
+    {
+        "id": 4,
+        "gyarto": "AMD",
+        "tipus": "Athlon TM Neo MV-40"
+    },
+    {
+        "id": 5,
+        "gyarto": "AMD",
+        "tipus": "Mobil Sempron SI-40"
+    },
+    {
+        "id": 6,
+        "gyarto": "AMD",
+        "tipus": "Turion64 X2 TL60"
+    },
+    {
+        "id": 7,
+        "gyarto": "AMD",
+        "tipus": "Turion64 X2 TL64"
+    },
+    {
+        "id": 8,
+        "gyarto": "AMD",
+        "tipus": "Turion64 X2 TL62"
+    },
+    {
+        "id": 10,
+        "gyarto": "Intel",
+        "tipus": "Celeron 900"
+    },
+    {
+        "id": 12,
+        "gyarto": "Intel",
+        "tipus": "Celeron Dual-Core T1600"
+    },
+    {
+        "id": 13,
+        "gyarto": "Intel",
+        "tipus": "Celeron Dual-Core T1700"
+    },
+    {
+        "id": 14,
+        "gyarto": "Intel",
+        "tipus": "Celeron Dual-Core T3000"
+    },
+    {
+        "id": 17,
+        "gyarto": "Intel",
+        "tipus": "Celeron M 560"
+    },
+    {
+        "id": 18,
+        "gyarto": "Intel",
+        "tipus": "Centrino Atom 1600"
+    },
+    {
+        "id": 19,
+        "gyarto": "Intel",
+        "tipus": "Centrino Atom N270"
+    },
+    {
+        "id": 20,
+        "gyarto": "Intel",
+        "tipus": "Centrino Atom N280"
+    },
+    {
+        "id": 21,
+        "gyarto": "Intel",
+        "tipus": "Centrino Atom Z520"
+    },
+    {
+        "id": 22,
+        "gyarto": "Intel",
+        "tipus": "Centrino Atom Z530"
+    },
+    {
+        "id": 23,
+        "gyarto": "Intel",
+        "tipus": "Core Duo T3400"
+    },
+    {
+        "id": 24,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo P7350"
+    },
+    {
+        "id": 25,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo P8400"
+    },
+    {
+        "id": 26,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo P8600"
+    },
+    {
+        "id": 27,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo P8700"
+    },
+    {
+        "id": 28,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo SL9400"
+    },
+    {
+        "id": 29,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo SU7300"
+    },
+    {
+        "id": 30,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo SU9300"
+    },
+    {
+        "id": 31,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo SU9400"
+    },
+    {
+        "id": 32,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T5670"
+    },
+    {
+        "id": 34,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T5870"
+    },
+    {
+        "id": 35,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T6400"
+    },
+    {
+        "id": 36,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T6500"
+    },
+    {
+        "id": 37,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T6570"
+    },
+    {
+        "id": 38,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T6600"
+    },
+    {
+        "id": 39,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T6670"
+    },
+    {
+        "id": 40,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T7300"
+    },
+    {
+        "id": 41,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T7500"
+    },
+    {
+        "id": 42,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T8300"
+    },
+    {
+        "id": 43,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T9300"
+    },
+    {
+        "id": 44,
+        "gyarto": "Intel",
+        "tipus": "Core2 Duo T9400"
+    },
+    {
+        "id": 45,
+        "gyarto": "Intel",
+        "tipus": "Core2 Solo SU3500 ULV"
+    },
+    {
+        "id": 46,
+        "gyarto": "Intel",
+        "tipus": "Pentium Dual Core SU4100"
+    },
+    {
+        "id": 48,
+        "gyarto": "Intel",
+        "tipus": "Pentium dual-core T4200"
+    },
+    {
+        "id": 49,
+        "gyarto": "Intel",
+        "tipus": "Pentium dual-core T4300"
+    },
+    {
+        "id": 51,
+        "gyarto": "Intel",
+        "tipus": "Celeron M ULV723"
+    },
+    {
+        "id": 52,
+        "gyarto": "VIA",
+        "tipus": "Via Nano ULV 2250"
+    },
+    {
+        "id": 53,
+        "gyarto": "AMD",
+        "tipus": "Athlon 64 X2 QL65"
+    }
+]
