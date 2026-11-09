@@ -10,7 +10,7 @@
             <div class="col-md-6">
               <div class="banner-content">
                 <h1 class="display-3 text-uppercase text-dark pb-3">Találd meg a hozzád illő notebookot</h1>
-                <p class="lead-text pb-4">Notebookok, processzorok és operációs rendszerek egy kereshető adatbázisban.</p>
+                <p class="lead-text pb-4"><%= fmt.szam(stat.gep) %> notebook, <%= stat.gyarto %> gyártó, <%= stat.processzor %> processzortípus egy kereshető adatbázisban.</p>
                 <a href="/adatbazis" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Kínálat böngészése</a>
               </div>
             </div>
@@ -63,7 +63,7 @@
           <div class="icon-box-icon pe-3 pb-3"><svg class="database"><use xlink:href="#database" /></svg></div>
           <div class="icon-box-content">
             <h3 class="card-title text-uppercase text-dark">Széles választék</h3>
-            <p>Notebookok gyártó, típus és ár szerint, raktárkészlettel.</p>
+            <p><%= fmt.szam(stat.gep) %> notebook típus, összesen <%= fmt.szam(stat.keszlet) %> darab raktáron.</p>
           </div>
         </div>
       </div>
@@ -94,6 +94,103 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Kiemelt notebookok (template: #mobile-products + product-swiper) -->
+<section id="mobile-products" class="product-store position-relative padding-large no-padding-top">
+  <div class="container">
+    <div class="row">
+      <div class="display-header d-flex justify-content-between align-items-baseline pb-3 flex-wrap">
+        <h2 class="display-7 text-dark text-uppercase">Kiemelt notebookok</h2>
+        <div class="btn-right">
+          <a href="/adatbazis" class="btn btn-medium btn-normal text-uppercase">Teljes kínálat</a>
+        </div>
+      </div>
+      <div class="swiper product-swiper">
+        <div class="swiper-wrapper">
+          <% kiemelt.forEach((g) => { %>
+            <div class="swiper-slide">
+              <div class="product-card position-relative">
+                <div class="image-holder laptop-thumb">
+                  <svg class="laptop-icon"><use xlink:href="#laptop"></use></svg>
+                  <span class="brand-badge"><%= g.gyarto %></span>
+                </div>
+                <div class="cart-concern position-absolute">
+                  <div class="cart-button d-flex">
+                    <a href="/adatbazis?gyarto=<%= encodeURIComponent(g.gyarto) %>" class="btn btn-medium btn-black">Részletek</a>
+                  </div>
+                </div>
+                <div class="card-detail d-flex justify-content-between align-items-baseline pt-3">
+                  <h3 class="card-title text-uppercase"><a href="/adatbazis?gyarto=<%= encodeURIComponent(g.gyarto) %>"><%= g.tipus %></a></h3>
+                </div>
+                <span class="item-price text-primary"><%= fmt.ar(g.ar) %></span>
+                <p class="specs">
+                  <%= g.kijelzo %>" · <%= fmt.memoria(g.memoria) %> RAM · <%= g.merevlemez %> GB<br>
+                  <%= g.processzor ? g.processzor.gyarto + " " + g.processzor.tipus : "" %>
+                </p>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="swiper-pagination position-absolute text-center"></div>
+</section>
+
+<!-- Kijelzőméret szerint (template: #latest-blog kártyái képekkel) -->
+<section id="screen-sizes" class="padding-large no-padding-top">
+  <div class="container">
+    <div class="row">
+      <div class="display-header d-flex justify-content-between align-items-baseline pb-3 flex-wrap">
+        <h2 class="display-7 text-dark text-uppercase">Válassz kijelzőméret szerint</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <a href="/adatbazis?meret=kicsi" class="size-card d-block">
+            <div class="size-image"><img src="/images/post-item8.jpg" alt="Kisméretű eszköz, billentyűzet és fejhallgató" loading="lazy"></div>
+            <div class="size-body">
+              <span class="size-meta text-uppercase">12,1" és kisebb · <%= meretDb.kicsi %> notebook</span>
+              <h3 class="card-title text-uppercase">Kicsi és könnyű</h3>
+              <p>Netbookok és ultrahordozható gépek, ha mindig nálad van.</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a href="/adatbazis?meret=kozepes" class="size-card d-block">
+            <div class="size-image"><img src="/images/post-item5.jpg" alt="Notebookon dolgozó ember" loading="lazy"></div>
+            <div class="size-body">
+              <span class="size-meta text-uppercase">13–15,6" · <%= meretDb.kozepes %> notebook</span>
+              <h3 class="card-title text-uppercase">Munkára és tanulásra</h3>
+              <p>A leggyakoribb méret: elég nagy kijelző, még hordozható.</p>
+            </div>
+          </a>
+        </div>
+        <div class="col-md-4">
+          <a href="/adatbazis?meret=nagy" class="size-card d-block">
+            <div class="size-image"><img src="/images/post-item9.jpg" alt="Billentyűzet egy íróasztalon" loading="lazy"></div>
+            <div class="size-body">
+              <span class="size-meta text-uppercase">16" és nagyobb · <%= meretDb.nagy %> notebook</span>
+              <h3 class="card-title text-uppercase">Nagy kijelző</h3>
+              <p>Asztali gépet kiváltó notebookok, nagy képernyővel.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Számok -->
+<section id="stats" class="bg-dark padding-medium">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-6 col-md-3 py-3"><div class="stat-num"><%= fmt.szam(stat.gep) %></div><div class="stat-label">notebook</div></div>
+      <div class="col-6 col-md-3 py-3"><div class="stat-num"><%= stat.gyarto %></div><div class="stat-label">gyártó</div></div>
+      <div class="col-6 col-md-3 py-3"><div class="stat-num"><%= stat.processzor %></div><div class="stat-label">processzor</div></div>
+      <div class="col-6 col-md-3 py-3"><div class="stat-num"><%= stat.oprendszer %></div><div class="stat-label">operációs rendszer</div></div>
     </div>
   </div>
 </section>

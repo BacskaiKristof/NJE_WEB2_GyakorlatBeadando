@@ -1,11 +1,44 @@
 const User = require("../models/User");
+const Gep = require("../models/Gep");
+const Processzor = require("../models/Processzor");
+const Oprendszer = require("../models/Oprendszer");
 const bcrypt = require("bcrypt");
 const flash = require("../utils/flash");
+const { MERETEK } = require("./dataController");
 
 // ---------- Oldalak ----------
 
-exports.homeIndex = (req, res) => {
-    res.render("home", { title: "Főoldal" });
+exports.homeIndex = async (req, res) => {
+    const [gepDb, procDb, osDb, keszlet, gyartok, kiemelt, kicsi, kozepes, nagy] = await Promise.all([
+        Gep.countDocuments(),
+        Processzor.countDocuments(),
+        Oprendszer.countDocuments(),
+        Gep.find().select("db").lean(),
+        Gep.distinct("gyarto"),
+        // Kiemelt ajánlat: raktáron lévő, legnagyobb memóriájú, majd legolcsóbb gépek
+        Gep.find({ db: { $gt: 0 } })
+            .sort({ memoria: -1, merevlemez: -1, ar: 1 })
+            .limit(8)
+            .populate("processzor")
+            .lean(),
+        // Kijelzőméret-kategóriák (a dataController MERETEK szűrőivel azonosak)
+        Gep.countDocuments(MERETEK.kicsi),
+        Gep.countDocuments(MERETEK.kozepes),
+        Gep.countDocuments(MERETEK.nagy)
+    ]);
+    res.render("home", {
+        title: "Főoldal",
+        stat: {
+            gep: gepDb,
+            processzor: procDb,
+            oprendszer: osDb,
+            // "Asus" és "ASUS" ugyanaz a gyártó
+            gyarto: new Set(gyartok.map((g) => g.toUpperCase())).size,
+            keszlet: keszlet.reduce((ossz, g) => ossz + g.db, 0)
+        },
+        kiemelt,
+        meretDb: { kicsi, kozepes, nagy }
+    });
 };
 
 exports.userIndex = (req, res) => {
