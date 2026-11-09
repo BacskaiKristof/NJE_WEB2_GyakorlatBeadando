@@ -1,0 +1,23 @@
+{
+  "name": "notebook-webshop",
+  "version": "1.0.0",
+  "description": "Web-programozás II beadandó – Notebook adatbázis webalkalmazás (Express, EJS, Mongoose, session alapú autentikáció)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "node --watch app.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "connect-mongo": "^6.0.0",
+    "dotenv": "^18.0.9",
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-session": "^1.19.0",
+    "mongoose": "^9.11.4"
+  }
+}
