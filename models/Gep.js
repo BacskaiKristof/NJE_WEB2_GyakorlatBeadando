@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// gep tábla (gep.json) – a notebookok
+
 const gepSchema = new mongoose.Schema({
     id: { type: Number, required: true, unique: true },
     gyarto: { type: String, required: true, trim: true },
@@ -18,9 +18,7 @@ const gepSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 });
 
-// Kapcsolatok a másik két táblához (virtual populate az "id" mezők alapján).
-// Így a .populate("processzor") és .populate("oprendszer") hívás
-// behúzza a kapcsolódó dokumentumot – SQL JOIN megfelelője az ODM-ben.
+
 gepSchema.virtual("processzor", {
     ref: "Processzor",
     localField: "processzorid",
