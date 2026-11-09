@@ -13,7 +13,7 @@ const RENDEZES = {
     kijelzo: { kijelzo: -1 }
 };
 
-// Kijelzőméret-kategóriák (a főoldal kártyái és az Adatbázis szűrő is ezt használja)
+
 const MERETEK = {
     kicsi: { kijelzo: { $lte: 12.1 } },
     kozepes: { kijelzo: { $gt: 12.1, $lte: 15.6 } },
@@ -52,7 +52,7 @@ exports.adatbazis = async (req, res) => {
     const page = Math.min(Math.max(1, parseInt(req.query.oldal) || 1), pages);
 
     const [gepek, processzorok, oprendszerek, gyartok, procGyartok, procHasznalat, osHasznalat] = await Promise.all([
-        // gep + processzor + oprendszer összekapcsolva (virtual populate)
+        
         Gep.find(filter)
             .sort(RENDEZES[q.rendezes])
             .skip((page - 1) * PER_PAGE)
@@ -99,8 +99,7 @@ exports.adatbazis = async (req, res) => {
 };
 
 // ---------- Diagram menü (Chart.js) ----------
-// Egy lekérdezéssel beolvassuk a szükséges mezőket mindhárom táblából,
-// a csoportosítás (gyártó, oprendszer, processzorgyártó, kijelzőméret) JS-ben történik.
+
 exports.diagram = async (req, res) => {
     const [gepek, oprendszerek, processzorok] = await Promise.all([
         Gep.find().select("gyarto ar db kijelzo processzorid oprendszerid").lean(),
@@ -125,7 +124,7 @@ exports.diagram = async (req, res) => {
         return [...m.values()];
     };
 
-    // "Asus" és "ASUS" ugyanaz a gyártó
+    
     const gyartoStat = csoport((g) => g.gyarto.toUpperCase()).sort((a, b) => b.db - a.db);
     const osStat = csoport((g) => osNev[g.oprendszerid] || "Ismeretlen").sort((a, b) => b.db - a.db);
     const procStat = csoport((g) => procGyarto[g.processzorid] || "Ismeretlen").sort((a, b) => b.db - a.db);
@@ -155,7 +154,7 @@ exports.diagram = async (req, res) => {
 
     res.render("diagram", {
         title: "Diagram",
-        // </script> elleni védelem a beágyazott JSON-ban
+        
         chartJson: JSON.stringify(chartData).replace(/</g, "\\u003c")
     });
 };
