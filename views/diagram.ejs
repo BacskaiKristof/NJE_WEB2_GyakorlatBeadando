@@ -1,0 +1,106 @@
+<%- include("partials/header") %>
+<%- include("partials/page-banner", { cim: "Diagram", alcim: "A notebook adatbázis statisztikái Chart.js diagramokon." }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <h3 class="card-title text-uppercase">Notebookok száma gyártónként</h3>
+          <div class="chart-box"><canvas id="chartGyarto"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <h3 class="card-title text-uppercase">Átlagár gyártónként (Ft)</h3>
+          <div class="chart-box"><canvas id="chartAr"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <h3 class="card-title text-uppercase">Operációs rendszerek megoszlása</h3>
+          <div class="chart-box"><canvas id="chartOs"></canvas></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="chart-card">
+          <h3 class="card-title text-uppercase">Processzorgyártók megoszlása</h3>
+          <div class="chart-box"><canvas id="chartProc"></canvas></div>
+        </div>
+      </div>
+      <div class="col-12">
+        <div class="chart-card">
+          <h3 class="card-title text-uppercase">Kijelzőméret: darabszám és átlagár</h3>
+          <div class="chart-box tall"><canvas id="chartKijelzo"></canvas></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="/js/chart.umd.min.js"></script>
+<script>
+  const data = <%- chartJson %>;
+  const primary = "#72AEC8", dark = "#212529";
+  const paletta = ["#72AEC8", "#212529", "#E0A458", "#7FB685", "#C4677B", "#8E7DBE", "#5A8FA8", "#B8B8B8", "#D98E73", "#4F6D7A", "#A3C4BC", "#6C757D"];
+  const ft = (v) => Number(v).toLocaleString("hu-HU") + " Ft";
+  Chart.defaults.font.family = "Lato, sans-serif";
+  Chart.defaults.color = "#555";
+  Chart.defaults.maintainAspectRatio = false;
+
+  new Chart(document.getElementById("chartGyarto"), {
+    type: "bar",
+    data: {
+      labels: data.gyarto.labels,
+      datasets: [
+        { label: "Típusok száma", data: data.gyarto.db, backgroundColor: primary },
+        { label: "Raktárkészlet (db)", data: data.gyarto.keszlet, backgroundColor: dark }
+      ]
+    },
+    options: { scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+  });
+
+  new Chart(document.getElementById("chartAr"), {
+    type: "bar",
+    data: {
+      labels: data.gyarto.labels,
+      datasets: [{ label: "Átlagár", data: data.gyarto.atlagAr, backgroundColor: paletta }]
+    },
+    options: {
+      indexAxis: "y",
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ft(c.parsed.x) } } },
+      scales: { x: { ticks: { callback: (v) => (v / 1000) + "e" } } }
+    }
+  });
+
+  new Chart(document.getElementById("chartOs"), {
+    type: "doughnut",
+    data: { labels: data.oprendszer.labels, datasets: [{ data: data.oprendszer.db, backgroundColor: paletta }] },
+    options: { plugins: { legend: { position: "right", labels: { boxWidth: 12 } } } }
+  });
+
+  new Chart(document.getElementById("chartProc"), {
+    type: "pie",
+    data: { labels: data.procGyarto.labels, datasets: [{ data: data.procGyarto.db, backgroundColor: paletta }] },
+    options: { plugins: { legend: { position: "right" } } }
+  });
+
+  new Chart(document.getElementById("chartKijelzo"), {
+    data: {
+      labels: data.kijelzo.labels,
+      datasets: [
+        { type: "bar", label: "Darabszám", data: data.kijelzo.db, backgroundColor: primary, yAxisID: "y" },
+        { type: "line", label: "Átlagár", data: data.kijelzo.atlagAr, borderColor: dark, backgroundColor: dark, tension: 0.3, yAxisID: "y1" }
+      ]
+    },
+    options: {
+      plugins: { tooltip: { callbacks: { label: (c) => c.dataset.yAxisID === "y1" ? "Átlagár: " + ft(c.parsed.y) : "Darabszám: " + c.parsed.y } } },
+      scales: {
+        y: { beginAtZero: true, position: "left", title: { display: true, text: "db" }, ticks: { precision: 0 } },
+        y1: { beginAtZero: true, position: "right", grid: { drawOnChartArea: false }, title: { display: true, text: "Ft" }, ticks: { callback: (v) => (v / 1000) + "e" } }
+      }
+    }
+  });
+</script>
+
+<%- include("partials/footer") %>

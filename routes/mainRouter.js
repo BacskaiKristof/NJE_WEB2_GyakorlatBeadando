@@ -20,6 +20,7 @@ router.get("/logout", controller.logout);
 // --- Bejelentkezett felhasználó ---
 router.get("/user", isLoggedIn, controller.userIndex);
 router.get("/uzenetek", isLoggedIn, contactController.list);
+router.get("/diagram", isLoggedIn, dataController.diagram);
 
 // --- Admin ---
 router.get("/admin", isAdmin, controller.adminIndex);

@@ -97,3 +97,65 @@ exports.adatbazis = async (req, res) => {
         baseQuery: params.toString()
     });
 };
+
+// ---------- Diagram menü (Chart.js) ----------
+// Egy lekérdezéssel beolvassuk a szükséges mezőket mindhárom táblából,
+// a csoportosítás (gyártó, oprendszer, processzorgyártó, kijelzőméret) JS-ben történik.
+exports.diagram = async (req, res) => {
+    const [gepek, oprendszerek, processzorok] = await Promise.all([
+        Gep.find().select("gyarto ar db kijelzo processzorid oprendszerid").lean(),
+        Oprendszer.find().lean(),
+        Processzor.find().lean()
+    ]);
+
+    const osNev = Object.fromEntries(oprendszerek.map((o) => [o.id, o.nev]));
+    const procGyarto = Object.fromEntries(processzorok.map((p) => [p.id, p.gyarto]));
+
+    // Általános csoportosító: kulcs -> { db, arOssz, keszlet }
+    const csoport = (kulcsFv) => {
+        const m = new Map();
+        gepek.forEach((g) => {
+            const k = kulcsFv(g);
+            const e = m.get(k) || { kulcs: k, db: 0, arOssz: 0, keszlet: 0 };
+            e.db += 1;
+            e.arOssz += g.ar;
+            e.keszlet += g.db;
+            m.set(k, e);
+        });
+        return [...m.values()];
+    };
+
+    // "Asus" és "ASUS" ugyanaz a gyártó
+    const gyartoStat = csoport((g) => g.gyarto.toUpperCase()).sort((a, b) => b.db - a.db);
+    const osStat = csoport((g) => osNev[g.oprendszerid] || "Ismeretlen").sort((a, b) => b.db - a.db);
+    const procStat = csoport((g) => procGyarto[g.processzorid] || "Ismeretlen").sort((a, b) => b.db - a.db);
+    const kijelzoStat = csoport((g) => g.kijelzo).sort((a, b) => a.kulcs - b.kulcs);
+
+    const chartData = {
+        gyarto: {
+            labels: gyartoStat.map((g) => g.kulcs),
+            db: gyartoStat.map((g) => g.db),
+            atlagAr: gyartoStat.map((g) => Math.round(g.arOssz / g.db)),
+            keszlet: gyartoStat.map((g) => g.keszlet)
+        },
+        oprendszer: {
+            labels: osStat.map((o) => o.kulcs),
+            db: osStat.map((o) => o.db)
+        },
+        procGyarto: {
+            labels: procStat.map((p) => p.kulcs),
+            db: procStat.map((p) => p.db)
+        },
+        kijelzo: {
+            labels: kijelzoStat.map((k) => k.kulcs + '"'),
+            db: kijelzoStat.map((k) => k.db),
+            atlagAr: kijelzoStat.map((k) => Math.round(k.arOssz / k.db))
+        }
+    };
+
+    res.render("diagram", {
+        title: "Diagram",
+        // </script> elleni védelem a beágyazott JSON-ban
+        chartJson: JSON.stringify(chartData).replace(/</g, "\\u003c")
+    });
+};
