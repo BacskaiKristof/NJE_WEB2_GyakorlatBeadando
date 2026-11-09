@@ -7,7 +7,6 @@ const bcrypt = require("bcrypt");
 const flash = require("../utils/flash");
 const { MERETEK } = require("./dataController");
 
-// ---------- Oldalak ----------
 
 exports.homeIndex = async (req, res) => {
     const [gepDb, procDb, osDb, keszlet, gyartok, kiemelt, kicsi, kozepes, nagy] = await Promise.all([
@@ -16,13 +15,13 @@ exports.homeIndex = async (req, res) => {
         Oprendszer.countDocuments(),
         Gep.find().select("db").lean(),
         Gep.distinct("gyarto"),
-        // Kiemelt ajánlat: raktáron lévő, legnagyobb memóriájú, majd legolcsóbb gépek
+        
         Gep.find({ db: { $gt: 0 } })
             .sort({ memoria: -1, merevlemez: -1, ar: 1 })
             .limit(8)
             .populate("processzor")
             .lean(),
-        // Kijelzőméret-kategóriák (a dataController MERETEK szűrőivel azonosak)
+       
         Gep.countDocuments(MERETEK.kicsi),
         Gep.countDocuments(MERETEK.kozepes),
         Gep.countDocuments(MERETEK.nagy)
@@ -33,7 +32,7 @@ exports.homeIndex = async (req, res) => {
             gep: gepDb,
             processzor: procDb,
             oprendszer: osDb,
-            // "Asus" és "ASUS" ugyanaz a gyártó
+            
             gyarto: new Set(gyartok.map((g) => g.toUpperCase())).size,
             keszlet: keszlet.reduce((ossz, g) => ossz + g.db, 0)
         },
@@ -55,7 +54,6 @@ exports.adminIndex = async (req, res) => {
     res.render("admin", { title: "Admin oldal", stat: { gep: gepDb, user: userDb, uzenet: uzenetDb } });
 };
 
-// ---------- Regisztráció ----------
 
 exports.registerGet = (req, res) => {
     res.render("register", { title: "Regisztráció" });
@@ -80,7 +78,7 @@ exports.registerPost = async (req, res) => {
     res.redirect("/login");
 };
 
-// ---------- Bejelentkezés / kijelentkezés ----------
+
 
 exports.loginGet = (req, res) => {
     res.render("login", { title: "Bejelentkezés" });
