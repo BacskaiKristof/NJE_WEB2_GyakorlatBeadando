@@ -4,7 +4,14 @@ const express = require("express");
 const session = require("express-session");
 const { MongoStore } = require("connect-mongo");
 const connectDB = require("./config/db");
+const { seedIfEmpty } = require("./seed/seedData");
 const site = require("./config/site");
+
+if (!process.env.SESSION_SECRET) {
+    console.error("Hiányzik a SESSION_SECRET környezeti változó (tetszőleges hosszú, titkos szöveg). " +
+        "Helyben a .env fájlba, Render.com-on az Environment beállításokba kell felvenni.");
+    process.exit(1);
+}
 
 const app = express();
 
@@ -21,7 +28,8 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-        mongoUrl: process.env.SESSION_MONGO_URI || process.env.MONGO_URI,
+        mongoUrl: process.env.SESSION_MONGO_URI || connectDB.MONGO_URI,
+        dbName: connectDB.DB_NAME,
         collectionName: "sessions"
     }),
     cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 } // 1 nap
@@ -70,6 +78,13 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 3000;
-connectDB().then(() => {
-    app.listen(port, () => { console.log(`Server: http://localhost:${port}`); });
-});
+// Kapcsolódás, majd üres adatbázis esetén automatikus feltöltés a data/*.json fájlokból
+connectDB()
+    .then(() => seedIfEmpty())
+    .then(() => {
+        app.listen(port, () => { console.log(`Server: http://localhost:${port}`); });
+    })
+    .catch((err) => {
+        console.error("Indítási hiba:", err.message);
+        process.exit(1);
+    });
