@@ -2,6 +2,7 @@ const User = require("../models/User");
 const Gep = require("../models/Gep");
 const Processzor = require("../models/Processzor");
 const Oprendszer = require("../models/Oprendszer");
+const Uzenet = require("../models/Uzenet");
 const bcrypt = require("bcrypt");
 const flash = require("../utils/flash");
 const { MERETEK } = require("./dataController");
@@ -45,8 +46,13 @@ exports.userIndex = (req, res) => {
     res.render("user", { title: "Saját oldal" });
 };
 
-exports.adminIndex = (req, res) => {
-    res.render("admin", { title: "Admin oldal" });
+exports.adminIndex = async (req, res) => {
+    const [gepDb, userDb, uzenetDb] = await Promise.all([
+        Gep.countDocuments(),
+        User.countDocuments(),
+        Uzenet.countDocuments()
+    ]);
+    res.render("admin", { title: "Admin oldal", stat: { gep: gepDb, user: userDb, uzenet: uzenetDb } });
 };
 
 // ---------- Regisztráció ----------

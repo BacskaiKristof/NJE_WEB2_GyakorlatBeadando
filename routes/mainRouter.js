@@ -26,6 +26,10 @@ router.get("/diagram", isLoggedIn, dataController.diagram);
 // --- Admin ---
 router.get("/admin", isAdmin, controller.adminIndex);
 router.get("/crud", isAdmin, crudController.index);
+router.get("/crud/uj", isAdmin, crudController.newForm);
+router.post("/crud/uj", isAdmin, crudController.create);
+router.get("/crud/:id/szerkesztes", isAdmin, crudController.editForm);
+router.post("/crud/:id/szerkesztes", isAdmin, crudController.update);
 router.post("/crud/:id/torles", isAdmin, crudController.remove);
 
 module.exports = router;

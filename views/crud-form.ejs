@@ -1,0 +1,91 @@
+<%- include("partials/header") %>
+<%- include("partials/page-banner", { cim: mode === "uj" ? "Új notebook" : "Notebook szerkesztése (#" + gep.id + ")", alcim: "Minden mező kitöltése kötelező." }) %>
+
+<%
+  const action = mode === "uj" ? "/crud/uj" : "/crud/" + gep.id + "/szerkesztes";
+  const v = (k) => (gep[k] === undefined || gep[k] === null) ? "" : gep[k];
+  const cls = (k) => "form-control" + (errors[k] ? " is-invalid" : "");
+  const sel = (k) => "form-select" + (errors[k] ? " is-invalid" : "");
+%>
+
+<section class="padding-small">
+  <div class="container">
+    <form method="POST" action="<%= action %>" class="crud-form" novalidate>
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label" for="gyarto">Gyártó</label>
+          <input class="<%= cls('gyarto') %>" id="gyarto" name="gyarto" value="<%= v('gyarto') %>" maxlength="50" list="gyartoLista">
+          <datalist id="gyartoLista">
+            <% ["ACER","ASUS","DELL","FUJITSU","HP","LENOVO","MSI","TOSHIBA"].forEach((g) => { %><option value="<%= g %>"><% }) %>
+          </datalist>
+          <% if (errors.gyarto) { %><div class="invalid-feedback"><%= errors.gyarto %></div><% } %>
+        </div>
+        <div class="col-md-8">
+          <label class="form-label" for="tipus">Típus</label>
+          <input class="<%= cls('tipus') %>" id="tipus" name="tipus" value="<%= v('tipus') %>" maxlength="100">
+          <% if (errors.tipus) { %><div class="invalid-feedback"><%= errors.tipus %></div><% } %>
+        </div>
+
+        <div class="col-6 col-md-3">
+          <label class="form-label" for="kijelzo">Kijelző (col)</label>
+          <input class="<%= cls('kijelzo') %>" id="kijelzo" name="kijelzo" type="number" step="0.1" value="<%= v('kijelzo') %>">
+          <% if (errors.kijelzo) { %><div class="invalid-feedback"><%= errors.kijelzo %></div><% } %>
+        </div>
+        <div class="col-6 col-md-3">
+          <label class="form-label" for="memoria">Memória (MB)</label>
+          <input class="<%= cls('memoria') %>" id="memoria" name="memoria" type="number" step="1" value="<%= v('memoria') %>">
+          <% if (errors.memoria) { %><div class="invalid-feedback"><%= errors.memoria %></div><% } %>
+        </div>
+        <div class="col-6 col-md-3">
+          <label class="form-label" for="merevlemez">Merevlemez (GB)</label>
+          <input class="<%= cls('merevlemez') %>" id="merevlemez" name="merevlemez" type="number" step="1" value="<%= v('merevlemez') %>">
+          <% if (errors.merevlemez) { %><div class="invalid-feedback"><%= errors.merevlemez %></div><% } %>
+        </div>
+        <div class="col-6 col-md-3">
+          <label class="form-label" for="db">Készlet (db)</label>
+          <input class="<%= cls('db') %>" id="db" name="db" type="number" step="1" value="<%= v('db') %>">
+          <% if (errors.db) { %><div class="invalid-feedback"><%= errors.db %></div><% } %>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="videovezerlo">Videóvezérlő</label>
+          <input class="<%= cls('videovezerlo') %>" id="videovezerlo" name="videovezerlo" value="<%= v('videovezerlo') %>" maxlength="100">
+          <% if (errors.videovezerlo) { %><div class="invalid-feedback"><%= errors.videovezerlo %></div><% } %>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="ar">Ár (Ft)</label>
+          <input class="<%= cls('ar') %>" id="ar" name="ar" type="number" step="1" value="<%= v('ar') %>">
+          <% if (errors.ar) { %><div class="invalid-feedback"><%= errors.ar %></div><% } %>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label" for="processzorid">Processzor</label>
+          <select class="<%= sel('processzorid') %>" id="processzorid" name="processzorid">
+            <option value="">– válassz –</option>
+            <% processzorok.forEach((p) => { %>
+              <option value="<%= p.id %>" <%= String(v('processzorid')) === String(p.id) ? "selected" : "" %>><%= p.gyarto %> <%= p.tipus %></option>
+            <% }) %>
+          </select>
+          <% if (errors.processzorid) { %><div class="invalid-feedback"><%= errors.processzorid %></div><% } %>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="oprendszerid">Operációs rendszer</label>
+          <select class="<%= sel('oprendszerid') %>" id="oprendszerid" name="oprendszerid">
+            <option value="">– válassz –</option>
+            <% oprendszerek.forEach((o) => { %>
+              <option value="<%= o.id %>" <%= String(v('oprendszerid')) === String(o.id) ? "selected" : "" %>><%= o.nev %></option>
+            <% }) %>
+          </select>
+          <% if (errors.oprendszerid) { %><div class="invalid-feedback"><%= errors.oprendszerid %></div><% } %>
+        </div>
+
+        <div class="col-12 d-flex gap-2 pt-2">
+          <button type="submit" class="btn btn-medium btn-dark text-uppercase btn-rounded-none"><%= mode === "uj" ? "Mentés" : "Módosítások mentése" %></button>
+          <a href="/crud" class="btn btn-medium btn-outline-dark text-uppercase btn-rounded-none">Mégse</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include("partials/footer") %>
