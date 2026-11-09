@@ -3,6 +3,7 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 const controller = require("../controllers/mainController");
 const dataController = require("../controllers/dataController");
 const contactController = require("../controllers/contactController");
+const crudController = require("../controllers/crudController");
 
 // --- Látogató (mindenki) ---
 router.get("/", controller.homeIndex);
@@ -24,5 +25,7 @@ router.get("/diagram", isLoggedIn, dataController.diagram);
 
 // --- Admin ---
 router.get("/admin", isAdmin, controller.adminIndex);
+router.get("/crud", isAdmin, crudController.index);
+router.post("/crud/:id/torles", isAdmin, crudController.remove);
 
 module.exports = router;

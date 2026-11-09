@@ -1,0 +1,65 @@
+<%- include("partials/header") %>
+<%- include("partials/page-banner", { cim: "CRUD – Notebookok", alcim: "A gep tábla kezelése: új notebook felvétele, módosítás és törlés. Csak admin számára." }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <div class="d-flex flex-wrap gap-2 justify-content-between align-items-end mb-3">
+      <form method="GET" action="/crud" class="d-flex gap-2 crud-search">
+        <input type="search" name="q" class="form-control" placeholder="Keresés gyártóra, típusra, videóvezérlőre…" value="<%= kereses %>">
+        <button class="btn btn-dark" type="submit">Keresés</button>
+        <% if (kereses) { %><a href="/crud" class="btn btn-outline-dark">✕</a><% } %>
+      </form>
+      <a href="/crud/uj" class="btn btn-medium btn-primary text-uppercase btn-rounded-none">+ Új notebook</a>
+    </div>
+
+    <p class="small text-muted mb-2"><strong><%= total %></strong> notebook<%= kereses ? ` a „${kereses}” keresésre` : "" %> · legújabb elöl</p>
+
+    <% if (gepek.length === 0) { %>
+      <div class="alert alert-info">Nincs találat.</div>
+    <% } else { %>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Gyártó / típus</th>
+              <th>Kijelző</th>
+              <th>RAM</th>
+              <th>HDD</th>
+              <th>Processzor</th>
+              <th>Op. rendszer</th>
+              <th class="text-end">Ár</th>
+              <th class="text-center">Db</th>
+              <th class="text-end">Műveletek</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% gepek.forEach((g) => { %>
+              <tr>
+                <td class="text-muted"><%= g.id %></td>
+                <td><strong><%= g.gyarto %></strong><br><span class="small"><%= g.tipus %></span></td>
+                <td><%= g.kijelzo %>"</td>
+                <td class="text-nowrap"><%= fmt.memoria(g.memoria) %></td>
+                <td class="text-nowrap"><%= g.merevlemez %> GB</td>
+                <td class="small"><%= g.processzor ? g.processzor.gyarto + " " + g.processzor.tipus : "–" %></td>
+                <td class="small"><%= g.oprendszer ? g.oprendszer.nev : "–" %></td>
+                <td class="text-end text-nowrap"><%= fmt.ar(g.ar) %></td>
+                <td class="text-center"><%= g.db %></td>
+                <td class="text-end text-nowrap">
+                  <a href="/crud/<%= g.id %>/szerkesztes" class="btn btn-sm btn-outline-dark">Szerkesztés</a>
+                  <form method="POST" action="/crud/<%= g.id %>/torles" class="d-inline"
+                        onsubmit="return confirm('Biztosan törlöd: <%= (g.gyarto + ' ' + g.tipus).replace(/['\\]/g, '') %>?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">Törlés</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+      <%- include("partials/pagination", { base: "/crud" }) %>
+    <% } %>
+  </div>
+</section>
+
+<%- include("partials/footer") %>
