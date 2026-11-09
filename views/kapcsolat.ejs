@@ -1,0 +1,50 @@
+<%- include("partials/header") %>
+<%- include("partials/page-banner", { cim: "Kapcsolat", alcim: "Küldj üzenetet az oldal tulajdonosának! Minden mező kitöltése kötelező." }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-7">
+        <!-- novalidate: a validálást a szerver végzi -->
+        <form method="POST" action="/kapcsolat" class="contact-form" novalidate>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="nev" class="form-label">Név</label>
+              <input type="text" id="nev" name="nev" class="form-control <%= errors.nev ? 'is-invalid' : '' %>" value="<%= values.nev %>" maxlength="100">
+              <% if (errors.nev) { %><div class="invalid-feedback"><%= errors.nev %></div><% } %>
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">E-mail cím</label>
+              <input type="email" id="email" name="email" class="form-control <%= errors.email ? 'is-invalid' : '' %>" value="<%= values.email %>" maxlength="150">
+              <% if (errors.email) { %><div class="invalid-feedback"><%= errors.email %></div><% } %>
+            </div>
+            <div class="col-12">
+              <label for="targy" class="form-label">Tárgy</label>
+              <input type="text" id="targy" name="targy" class="form-control <%= errors.targy ? 'is-invalid' : '' %>" value="<%= values.targy %>" maxlength="150">
+              <% if (errors.targy) { %><div class="invalid-feedback"><%= errors.targy %></div><% } %>
+            </div>
+            <div class="col-12">
+              <label for="uzenet" class="form-label">Üzenet</label>
+              <textarea id="uzenet" name="uzenet" rows="6" class="form-control <%= errors.uzenet ? 'is-invalid' : '' %>" maxlength="2000"><%= values.uzenet %></textarea>
+              <% if (errors.uzenet) { %><div class="invalid-feedback"><%= errors.uzenet %></div><% } %>
+              <div class="form-text">Legalább 10, legfeljebb 2000 karakter.</div>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Üzenet küldése</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-5">
+        <div class="contact-info bg-light-blue p-4">
+          <h3 class="text-uppercase mb-3">Elérhetőségek</h3>
+          <p class="mb-2"><strong>E-mail:</strong> <a href="mailto:<%= site.email %>"><%= site.email %></a></p>
+          <p class="mb-2"><strong>Telefon:</strong> <%= site.phone %></p>
+          <p class="mb-0">Az elküldött üzeneteket a bejelentkezett felhasználók az <a href="/uzenetek">Üzenetek</a> menüben láthatják.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<%- include("partials/footer") %>
