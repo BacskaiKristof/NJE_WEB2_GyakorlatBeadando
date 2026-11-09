@@ -1,22 +1,33 @@
-require("dotenv").config();
+require("dotenv").config({ quiet: true });
+const path = require("path");
 const express = require("express");
-const mongoose = require("mongoose");
 const session = require("express-session");
 const { MongoStore } = require("connect-mongo");
+const connectDB = require("./config/db");
 const site = require("./config/site");
+
 const app = express();
-mongoose.connect(process.env.MONGO_URI);
+
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.set("trust proxy", 1); // Render.com proxy mögött fut
+
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
+
+// Session-alapú autentikáció, a session adatok MongoDB-ben (connect-mongo)
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: process.env.SESSION_MONGO_URI, collectionName: "sessions"})
+    store: MongoStore.create({
+        mongoUrl: process.env.SESSION_MONGO_URI || process.env.MONGO_URI,
+        collectionName: "sessions"
+    }),
+    cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 24 } // 1 nap
 }));
 
-// Közös változók minden nézethez (a MiniStore téma fejléce és lábléce használja)
+// Közös változók minden nézethez + flash üzenet kezelése
 app.use((req, res, next) => {
     res.locals.user = req.session.user || null;
     res.locals.message = req.session.message || "";
@@ -29,12 +40,21 @@ app.use((req, res, next) => {
     ) ? "active" : "";
     res.locals.roleLabel = req.session.user && req.session.user.role === "admin" ? "admin" : "regisztrált látogató";
     res.locals.pageTitle = (t) => (t ? t + " | " : "") + site.name;
-    req.session.message = "";
-    req.session.messageType = "";
+    if (req.session.message) {
+        delete req.session.message;
+        delete req.session.messageType;
+    }
     next();
 });
 
+// Formázó segédfüggvények a nézetekhez
 app.locals.site = site;
+app.locals.fmt = {
+    ar: (n) => Number(n).toLocaleString("hu-HU") + " Ft",
+    szam: (n) => Number(n).toLocaleString("hu-HU"),
+    memoria: (mb) => (mb >= 1024 ? (mb / 1024).toLocaleString("hu-HU") + " GB" : mb + " MB"),
+    datum: (d) => new Date(d).toLocaleString("hu-HU", { timeZone: "Europe/Budapest" })
+};
 
 app.use("/", require("./routes/mainRouter"));
 
@@ -43,5 +63,13 @@ app.use((req, res) => {
     res.status(404).render("404", { title: "Az oldal nem található" });
 });
 
-const port = 3000;
-app.listen(port, () => {console.log(`Server: http://localhost:${port}`);});
+// Hibakezelő
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).render("error", { title: "Hiba történt" });
+});
+
+const port = process.env.PORT || 3000;
+connectDB().then(() => {
+    app.listen(port, () => { console.log(`Server: http://localhost:${port}`); });
+});
