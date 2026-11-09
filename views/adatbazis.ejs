@@ -1,0 +1,162 @@
+<%- include("partials/header") %>
+<%- include("partials/page-banner", { cim: "Adatbázis", alcim: "A notebook adatbázis három táblája: gép, processzor és operációs rendszer." }) %>
+
+<section class="padding-small">
+  <div class="container">
+
+    <ul class="nav nav-tabs data-tabs mb-4" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-gep" type="button" role="tab">Notebookok <span class="badge bg-secondary"><%= total %></span></button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-proc" type="button" role="tab">Processzorok <span class="badge bg-secondary"><%= processzorok.length %></span></button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-os" type="button" role="tab">Operációs rendszerek <span class="badge bg-secondary"><%= oprendszerek.length %></span></button>
+      </li>
+    </ul>
+
+    <div class="tab-content">
+      <!-- gep + processzor + oprendszer összekapcsolva -->
+      <div class="tab-pane fade show active" id="tab-gep" role="tabpanel">
+        <form method="GET" action="/adatbazis" class="filter-form row g-2 align-items-end mb-3">
+          <div class="col-6 col-lg-2">
+            <label class="form-label small" for="gyarto">Gyártó</label>
+            <select class="form-select" name="gyarto" id="gyarto">
+              <option value="">Mind</option>
+              <% gyartok.forEach((g) => { %>
+                <option value="<%= g %>" <%= q.gyarto.toUpperCase() === g ? "selected" : "" %>><%= g %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-6 col-lg-2">
+            <label class="form-label small" for="procGyarto">Processzor gyártó</label>
+            <select class="form-select" name="procGyarto" id="procGyarto">
+              <option value="">Mind</option>
+              <% procGyartok.forEach((g) => { %>
+                <option value="<%= g %>" <%= q.procGyarto === g ? "selected" : "" %>><%= g %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-6 col-lg-2">
+            <label class="form-label small" for="os">Operációs rendszer</label>
+            <select class="form-select" name="os" id="os">
+              <option value="">Mind</option>
+              <% oprendszerek.forEach((o) => { %>
+                <option value="<%= o.id %>" <%= q.os === String(o.id) ? "selected" : "" %>><%= o.nev %></option>
+              <% }) %>
+            </select>
+          </div>
+          <div class="col-6 col-lg-2">
+            <label class="form-label small" for="meret">Kijelzőméret</label>
+            <select class="form-select" name="meret" id="meret">
+              <option value="">Mind</option>
+              <option value="kicsi" <%= q.meret === "kicsi" ? "selected" : "" %>>12,1" és kisebb</option>
+              <option value="kozepes" <%= q.meret === "kozepes" ? "selected" : "" %>>13–15,6"</option>
+              <option value="nagy" <%= q.meret === "nagy" ? "selected" : "" %>>16" és nagyobb</option>
+            </select>
+          </div>
+          <div class="col-6 col-lg-2">
+            <label class="form-label small" for="rendezes">Rendezés</label>
+            <select class="form-select" name="rendezes" id="rendezes">
+              <option value="id" <%= q.rendezes === "id" ? "selected" : "" %>>Azonosító</option>
+              <option value="nev" <%= q.rendezes === "nev" ? "selected" : "" %>>Név (A–Z)</option>
+              <option value="ar_nov" <%= q.rendezes === "ar_nov" ? "selected" : "" %>>Ár (növekvő)</option>
+              <option value="ar_csokk" <%= q.rendezes === "ar_csokk" ? "selected" : "" %>>Ár (csökkenő)</option>
+              <option value="kijelzo" <%= q.rendezes === "kijelzo" ? "selected" : "" %>>Kijelző (nagy → kicsi)</option>
+            </select>
+          </div>
+          <div class="col-12 col-lg-2 d-flex gap-2">
+            <button type="submit" class="btn btn-dark flex-grow-1">Szűrés</button>
+            <a href="/adatbazis" class="btn btn-outline-dark" title="Szűrők törlése">✕</a>
+          </div>
+        </form>
+
+        <p class="small text-muted mb-2">Találatok: <strong><%= total %></strong> notebook<%= pages > 1 ? ` · ${page}. oldal / ${pages}` : "" %></p>
+
+        <% if (gepek.length === 0) { %>
+          <div class="alert alert-info">Nincs a szűrésnek megfelelő notebook.</div>
+        <% } else { %>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle data-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Gyártó / típus</th>
+                  <th>Kijelző</th>
+                  <th>Memória</th>
+                  <th>Háttértár</th>
+                  <th>Processzor</th>
+                  <th>Videóvezérlő</th>
+                  <th>Op. rendszer</th>
+                  <th class="text-end">Ár</th>
+                  <th class="text-center">Készlet</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% gepek.forEach((g) => { %>
+                  <tr>
+                    <td class="text-muted"><%= g.id %></td>
+                    <td><strong><%= g.gyarto %></strong><br><span class="small"><%= g.tipus %></span></td>
+                    <td><%= g.kijelzo %>"</td>
+                    <td class="text-nowrap"><%= fmt.memoria(g.memoria) %></td>
+                    <td class="text-nowrap"><%= g.merevlemez %> GB</td>
+                    <td><%= g.processzor ? g.processzor.gyarto + " " + g.processzor.tipus : "–" %></td>
+                    <td class="small"><%= g.videovezerlo %></td>
+                    <td class="small"><%= g.oprendszer ? g.oprendszer.nev : "–" %></td>
+                    <td class="text-end text-nowrap"><strong><%= fmt.ar(g.ar) %></strong></td>
+                    <td class="text-center">
+                      <% if (g.db > 0) { %><span class="badge bg-success"><%= g.db %> db</span><% } else { %><span class="badge bg-secondary">elfogyott</span><% } %>
+                    </td>
+                  </tr>
+                <% }) %>
+              </tbody>
+            </table>
+          </div>
+          <%- include("partials/pagination", { base: "/adatbazis" }) %>
+        <% } %>
+      </div>
+
+      <!-- processzor tábla -->
+      <div class="tab-pane fade" id="tab-proc" role="tabpanel">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle data-table">
+            <thead><tr><th>#</th><th>Gyártó</th><th>Típus</th><th class="text-center">Notebookok száma</th></tr></thead>
+            <tbody>
+              <% processzorok.forEach((p) => { %>
+                <tr>
+                  <td class="text-muted"><%= p.id %></td>
+                  <td><%= p.gyarto %></td>
+                  <td><%= p.tipus %></td>
+                  <td class="text-center"><%= p.gepDb %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- oprendszer tábla -->
+      <div class="tab-pane fade" id="tab-os" role="tabpanel">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle data-table">
+            <thead><tr><th>#</th><th>Név</th><th class="text-center">Notebookok száma</th><th></th></tr></thead>
+            <tbody>
+              <% oprendszerek.forEach((o) => { %>
+                <tr>
+                  <td class="text-muted"><%= o.id %></td>
+                  <td><%= o.nev %></td>
+                  <td class="text-center"><%= o.gepDb %></td>
+                  <td class="text-end"><% if (o.gepDb > 0) { %><a href="/adatbazis?os=<%= o.id %>" class="small">Notebookok →</a><% } %></td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<%- include("partials/footer") %>

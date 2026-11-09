@@ -1,9 +1,11 @@
 const router = require("express").Router();
 const { isLoggedIn, isAdmin } = require("../middleware/auth");
 const controller = require("../controllers/mainController");
+const dataController = require("../controllers/dataController");
 
 // --- Látogató (mindenki) ---
 router.get("/", controller.homeIndex);
+router.get("/adatbazis", dataController.adatbazis);
 
 // --- Autentikáció (az auth projektből) ---
 router.get("/register", controller.registerGet);

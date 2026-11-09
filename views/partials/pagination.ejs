@@ -1,0 +1,23 @@
+<% if (pages > 1) { %>
+  <%
+    const link = (p) => base + "?" + (baseQuery ? baseQuery + "&" : "") + "oldal=" + p;
+    const from = Math.max(1, page - 2), to = Math.min(pages, page + 2);
+  %>
+  <nav aria-label="Lapozás" class="mt-4">
+    <ul class="pagination justify-content-center flex-wrap">
+      <li class="page-item <%= page === 1 ? 'disabled' : '' %>"><a class="page-link" href="<%= link(page - 1) %>">&laquo; Előző</a></li>
+      <% if (from > 1) { %>
+        <li class="page-item"><a class="page-link" href="<%= link(1) %>">1</a></li>
+        <% if (from > 2) { %><li class="page-item disabled"><span class="page-link">…</span></li><% } %>
+      <% } %>
+      <% for (let p = from; p <= to; p++) { %>
+        <li class="page-item <%= p === page ? 'active' : '' %>"><a class="page-link" href="<%= link(p) %>"><%= p %></a></li>
+      <% } %>
+      <% if (to < pages) { %>
+        <% if (to < pages - 1) { %><li class="page-item disabled"><span class="page-link">…</span></li><% } %>
+        <li class="page-item"><a class="page-link" href="<%= link(pages) %>"><%= pages %></a></li>
+      <% } %>
+      <li class="page-item <%= page === pages ? 'disabled' : '' %>"><a class="page-link" href="<%= link(page + 1) %>">Következő &raquo;</a></li>
+    </ul>
+  </nav>
+<% } %>
