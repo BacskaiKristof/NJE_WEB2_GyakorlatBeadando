@@ -2,7 +2,7 @@
 // - a gep, processzor, oprendszer kollekciókat törli és újratölti a data/*.json-ból
 // - létrehoz egy admin felhasználót, ha még nincs (alapból admin / admin123)
 // A felhasználókat és az üzeneteket NEM törli.
-// (Erre általában nincs szükség: az app indításkor magától feltölti az üres adatbázist.)
+
 require("dotenv").config({ quiet: true });
 const mongoose = require("mongoose");
 const connectDB = require("../config/db");
