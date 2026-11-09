@@ -1,0 +1,41 @@
+<%- include("partials/header") %>
+<%- include("partials/page-banner", { cim: "Üzenetek", alcim: "A Kapcsolat űrlapon küldött üzenetek, a legfrissebb elöl." }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <% if (uzenetek.length === 0) { %>
+      <div class="alert alert-info">Még nem érkezett üzenet. <a href="/kapcsolat">Küldj egyet!</a></div>
+    <% } else { %>
+      <p class="small text-muted">Összesen <strong><%= uzenetek.length %></strong> üzenet.</p>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle data-table">
+          <thead>
+            <tr>
+              <th class="text-nowrap">Küldés ideje</th>
+              <th>Név</th>
+              <th>E-mail</th>
+              <th>Tárgy</th>
+              <th>Üzenet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% uzenetek.forEach((u) => { %>
+              <tr>
+                <td class="text-nowrap small"><%= fmt.datum(u.createdAt) %></td>
+                <td>
+                  <%= u.nev %>
+                  <% if (u.felhasznalo) { %><br><span class="badge bg-light text-dark border">@<%= u.felhasznalo %></span><% } %>
+                </td>
+                <td class="small"><a href="mailto:<%= u.email %>"><%= u.email %></a></td>
+                <td><strong><%= u.targy %></strong></td>
+                <td class="message-text"><%= u.uzenet %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

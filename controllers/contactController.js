@@ -60,3 +60,9 @@ exports.send = async (req, res) => {
     flash(req, "Köszönjük, az üzenetedet elmentettük!", "success");
     res.redirect("/kapcsolat");
 };
+
+// GET /uzenetek – fordított időrendben (legfrissebb elöl)
+exports.list = async (req, res) => {
+    const uzenetek = await Uzenet.find().sort({ createdAt: -1 }).lean();
+    res.render("uzenetek", { title: "Üzenetek", uzenetek });
+};
