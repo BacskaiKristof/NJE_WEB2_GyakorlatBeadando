@@ -1,4 +1,11 @@
 <%- include("partials/header") %>
-<h1>Admin page</h1>
-<p>For admin only.</p>
+<%- include("partials/page-banner", { cim: "Admin oldal", alcim: "Csak admin felhasználónak." }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <h2 class="mb-4">Üdv, <%= user.username %>!</h2>
+    <p>Az admin a CRUD menüben kezelheti a notebookokat.</p>
+  </div>
+</section>
+
 <%- include("partials/footer") %>

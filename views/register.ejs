@@ -1,8 +1,25 @@
 <%- include("partials/header") %>
-<% if(message){ %><p class="message"><%= message %></p><% } %>
-<form method="POST">
-    <input name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <button>Registration</button>
-</form>
+<%- include("partials/page-banner", { cim: "Regisztráció" }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <div class="auth-card mx-auto">
+      <form method="POST" action="/register">
+        <div class="mb-3">
+          <label for="username" class="form-label">Felhasználónév</label>
+          <input id="username" name="username" class="form-control" placeholder="Felhasználónév" autocomplete="username" minlength="3" required>
+          <div class="form-text">Legalább 3 karakter.</div>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="form-label">Jelszó</label>
+          <input id="password" type="password" name="password" class="form-control" placeholder="Jelszó" autocomplete="new-password" minlength="4" required>
+          <div class="form-text">Legalább 4 karakter.</div>
+        </div>
+        <button class="btn btn-medium btn-dark text-uppercase btn-rounded-none w-100">Regisztráció</button>
+      </form>
+      <p class="text-center mt-3 mb-0 small">Van már fiókod? <a href="/login">Jelentkezz be!</a></p>
+    </div>
+  </div>
+</section>
+
 <%- include("partials/footer") %>

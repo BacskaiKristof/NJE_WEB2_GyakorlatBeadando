@@ -1,2 +1,86 @@
-    </body>
-    </html>
+    </main>
+
+    <footer id="footer" class="overflow-hidden">
+      <div class="container">
+        <div class="row">
+          <div class="footer-top-area">
+            <div class="row d-flex flex-wrap justify-content-between">
+              <div class="col-lg-4 col-sm-6 pb-3">
+                <div class="footer-menu">
+                  <a class="brand-text d-inline-block mb-3" href="/">Notebook<span>Shop</span></a>
+                  <p>Notebook adatbázis több mint száz géppel: gyártók, processzorok, operációs rendszerek és árak egy helyen, kereshetően és diagramokon.</p>
+                </div>
+              </div>
+              <div class="col-lg-2 col-sm-6 pb-3">
+                <div class="footer-menu text-uppercase">
+                  <h5 class="widget-title pb-2">Menü</h5>
+                  <ul class="menu-list list-unstyled text-uppercase">
+                    <li class="menu-item pb-2"><a href="/">Főoldal</a></li>
+                    <li class="menu-item pb-2"><a href="/adatbazis">Adatbázis</a></li>
+                    <li class="menu-item pb-2"><a href="/kapcsolat">Kapcsolat</a></li>
+                    <% if (user) { %>
+                      <li class="menu-item pb-2"><a href="/uzenetek">Üzenetek</a></li>
+                      <li class="menu-item pb-2"><a href="/diagram">Diagram</a></li>
+                    <% } %>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 pb-3">
+                <div class="footer-menu text-uppercase">
+                  <h5 class="widget-title pb-2">Fiók</h5>
+                  <ul class="menu-list list-unstyled">
+                    <% if (!user) { %>
+                      <li class="menu-item pb-2"><a href="/login">Bejelentkezés</a></li>
+                      <li class="menu-item pb-2"><a href="/register">Regisztráció</a></li>
+                    <% } else { %>
+                      <li class="menu-item pb-2"><a href="/user">Saját oldal</a></li>
+                      <% if (user.role === "admin") { %>
+                        <li class="menu-item pb-2"><a href="/admin">Admin oldal</a></li>
+                        <li class="menu-item pb-2"><a href="/crud">CRUD</a></li>
+                      <% } %>
+                      <li class="menu-item pb-2"><a href="/logout">Kijelentkezés</a></li>
+                    <% } %>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-3 col-sm-6 pb-3">
+                <div class="footer-menu contact-item">
+                  <h5 class="widget-title text-uppercase pb-2">Kapcsolat</h5>
+                  <p>Kérdésed van? <a href="/kapcsolat">Írj nekünk üzenetet!</a></p>
+                  <p>E-mail: <a href="mailto:<%= site.email %>"><%= site.email %></a></p>
+                  <p>Telefon: <%= site.phone %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+    </footer>
+    <div id="footer-bottom">
+      <div class="container">
+        <div class="row d-flex flex-wrap justify-content-between align-items-center">
+          <div class="col-md-7 col-sm-12">
+            <p class="authors mb-2">
+              Készítők:
+              <% site.authors.forEach((a, i) => { %>
+                <strong><%= a.name %></strong> (<%= a.neptun %>)<% if (i < site.authors.length - 1) { %>,<% } %>
+              <% }) %>
+            </p>
+          </div>
+          <div class="col-md-5 col-sm-12">
+            <div class="copyright text-md-end">
+              <p class="mb-2">Web-programozás II beadandó · Téma: <a href="https://templatesjungle.com/">MiniStore – TemplatesJungle</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/jquery-1.11.0.min.js"></script>
+    <script src="/js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,244 @@
+/* ------------------------------------------------------------------
+   NotebookShop – a MiniStore template kiegészítése az alkalmazáshoz
+   ------------------------------------------------------------------ */
+
+/* A fix (position-fixed) fejléc miatt a tartalom lejjebb kezdődik */
+.page-content {
+  padding-top: 86px;
+  min-height: 60vh;
+}
+
+h1, h2, h3, h4, h5, .brand-text, .display-header h2 {
+  font-family: var(--heading-font);
+}
+
+/* Logó szövegként */
+.brand-text {
+  font-family: var(--heading-font);
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--dark-color);
+  text-transform: uppercase;
+}
+.brand-text span { color: var(--primary-color); }
+.brand-text:hover { color: var(--dark-color); }
+
+/* Fejléc */
+.site-header { box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06); }
+.navbar-nav .nav-item a.nav-link { font-weight: 500; letter-spacing: 0.5px; }
+.navbar-nav .user-menu { display: inline-flex; align-items: center; gap: 6px; }
+.navbar-nav .user-menu svg.user-icon { width: 16px; height: 16px; fill: currentColor; }
+.dropdown-menu { text-transform: none; }
+
+/* Flash üzenet (az auth projekt .message osztálya) */
+.flash-container { padding-top: 1.25rem; }
+.message { font-weight: 600; margin-bottom: 0; }
+
+/* Oldal fejléc sáv az aloldalakon */
+.page-banner {
+  padding: 2.75rem 0 2.25rem;
+  margin-bottom: 1rem;
+}
+.page-banner p { color: var(--accent-color); }
+
+/* ---------- Főoldal ---------- */
+#billboard { padding: 3rem 0; }
+#billboard .banner-content h1 { line-height: 1.05; }
+.lead-text { font-size: 1.25em; color: var(--gray-color-800); }
+
+.hero-illustration {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  max-width: 420px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #d9e8ef 60%, #c4dbe6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-illustration.alt {
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #e3e6e8 60%, #cfd4d8 100%);
+}
+.hero-illustration svg.hero-laptop {
+  width: 72%;
+  height: 72%;
+  color: var(--dark-color);
+  filter: drop-shadow(0 18px 18px rgba(0, 0, 0, 0.15));
+}
+.hero-illustration.alt svg.hero-laptop { color: var(--primary-color); }
+
+.icon-box .icon-box-icon svg.database { width: 26px; height: 26px; fill: var(--primary-color); }
+
+/* Kiemelt notebook kártyák */
+.laptop-thumb {
+  position: relative;
+  background: var(--light-blue-color);
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.laptop-thumb svg.laptop-icon { width: 62%; height: 62%; color: var(--primary-color); }
+.laptop-thumb .brand-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--dark-color);
+  color: var(--light-color);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+}
+.product-card .card-title { font-size: 1.15em; margin-bottom: 0.25rem; }
+.product-card .item-price { font-size: 1.3em; font-weight: 600; }
+.product-card .specs { font-size: 0.95em; margin: 0.25rem 0 3rem; color: var(--accent-color); }
+.product-store .product-card .cart-concern { bottom: 130px; }
+.product-store .product-card:hover .cart-concern { bottom: 145px; }
+
+/* Statisztika sáv */
+.stat-num {
+  font-family: var(--heading-font);
+  font-size: 2.6rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  line-height: 1;
+}
+.stat-label { color: var(--gray-color-500); text-transform: uppercase; letter-spacing: 1px; margin-top: 6px; }
+
+/* Funkció kártyák */
+.feature-card {
+  border: 1px solid var(--gray-color-300);
+  padding: 1.75rem;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.feature-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+.feature-card svg.feature-icon { width: 30px; height: 30px; fill: var(--primary-color); margin-bottom: 1rem; }
+.feature-card h3 { font-size: 1.3em; color: var(--dark-color); }
+.feature-card p { margin-bottom: 0.75rem; }
+.badge-access {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent-color);
+  border: 1px solid var(--gray-color-300);
+  padding: 2px 8px;
+}
+.badge-access.admin { color: #b02a37; border-color: #f1aeb5; }
+
+/* ---------- Táblázatok, űrlapok ---------- */
+.data-tabs .nav-link { color: var(--dark-color); font-family: var(--heading-font); text-transform: uppercase; }
+.data-tabs .nav-link.active { color: var(--primary-color); }
+.data-table { font-size: 0.95rem; }
+.data-table thead th {
+  font-family: var(--heading-font);
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  background: var(--light-blue-color);
+  white-space: nowrap;
+}
+.data-table td p { margin: 0; }
+.message-text { white-space: pre-wrap; min-width: 240px; color: var(--gray-color-800); }
+
+.filter-form, .crud-form, .contact-form {
+  font-size: 1rem;
+}
+.filter-form { background: var(--light-color); padding: 1rem; border: 1px solid var(--gray-color-300); }
+.crud-search { min-width: min(100%, 460px); }
+.crud-search input { min-width: 0; }
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(114, 174, 200, 0.25);
+}
+
+.page-link { color: var(--dark-color); }
+.page-item.active .page-link { background-color: var(--dark-color); border-color: var(--dark-color); }
+
+.auth-card {
+  max-width: 440px;
+  border: 1px solid var(--gray-color-300);
+  padding: 2rem;
+  font-size: 1rem;
+}
+
+.contact-info p { color: var(--gray-color-800); }
+
+.admin-stat {
+  border: 1px solid var(--gray-color-300);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+/* Diagram oldal */
+.chart-card {
+  border: 1px solid var(--gray-color-300);
+  padding: 1.25rem;
+  height: 100%;
+}
+.chart-card h3 { font-size: 1.1em; margin-bottom: 1rem; }
+.chart-box { position: relative; height: 320px; }
+.chart-box.tall { height: 360px; }
+
+/* Lábléc */
+#footer { padding-top: 4rem; border-top: 1px solid var(--gray-color-300); margin-top: 3rem; }
+#footer-bottom { padding: 1rem 0 1.5rem; }
+#footer-bottom p { font-size: 1rem; }
+#footer-bottom .authors strong { color: var(--dark-color); }
+
+@media only screen and (max-width: 767px) {
+  #billboard .banner-content { margin-top: 0; }
+  #billboard .image-holder, .hero-illustration { display: none; }
+  #billboard .swiper-arrow { top: auto; }
+  .stat-num { font-size: 2rem; }
+  .page-banner { padding: 2rem 0 1.5rem; }
+}
+
+/* Slider nyilak ne lógjanak a szövegbe */
+#billboard .swiper-arrow svg { width: 36px; height: 36px; }
+#billboard .swiper-arrow.swiper-arrow-prev { left: 12px; }
+#billboard .swiper-arrow.swiper-arrow-next { right: 12px; }
+@media only screen and (min-width: 768px) {
+  #billboard .container { padding-left: 64px; padding-right: 64px; }
+}
+
+/* ---------- Template képek (public/images) ---------- */
+.hero-photo {
+  max-width: 480px;
+  margin: 0 auto;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+}
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.size-card {
+  border: 1px solid var(--gray-color-300);
+  height: 100%;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.size-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+}
+.size-image { aspect-ratio: 3 / 2; overflow: hidden; background: var(--light-blue-color); }
+.size-image img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+.size-card:hover .size-image img { transform: scale(1.04); }
+.size-body { padding: 1.25rem 1.5rem 1.5rem; }
+.size-body h3 { font-size: 1.3em; color: var(--dark-color); margin: 0.35rem 0 0.5rem; }
+.size-body p { margin: 0; }
+.size-meta { font-size: 0.8rem; letter-spacing: 1px; color: var(--primary-color); font-weight: 600; }
+
+@media only screen and (max-width: 767px) {
+  .hero-photo { display: none; }
+}

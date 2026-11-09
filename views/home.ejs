@@ -1,4 +1,177 @@
 <%- include("partials/header") %>
-<h1>Home</h1>
-<p>Available to all visitors.</p>
+
+<!-- Billboard (template: #billboard + main-swiper) -->
+<section id="billboard" class="position-relative overflow-hidden bg-light-blue">
+  <div class="swiper main-swiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="container">
+          <div class="row d-flex align-items-center">
+            <div class="col-md-6">
+              <div class="banner-content">
+                <h1 class="display-3 text-uppercase text-dark pb-3">Találd meg a hozzád illő notebookot</h1>
+                <p class="lead-text pb-4">Notebookok, processzorok és operációs rendszerek egy kereshető adatbázisban.</p>
+                <a href="/adatbazis" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Kínálat böngészése</a>
+              </div>
+            </div>
+            <div class="col-md-5 offset-md-1">
+              <div class="hero-photo">
+                <img src="/images/post-item6.jpg" alt="Notebook egy íróasztalon" width="1004" height="712">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="container">
+          <div class="row d-flex flex-wrap align-items-center">
+            <div class="col-md-6">
+              <div class="banner-content">
+                <h1 class="display-3 text-uppercase text-dark pb-3">Hasonlítsd össze, mielőtt döntesz</h1>
+                <p class="lead-text pb-4">Szűrés gyártóra, processzorra, operációs rendszerre és kijelzőméretre, árak és készlet egy táblázatban.</p>
+                <% if (user) { %>
+                  <a href="/diagram" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Diagramok megtekintése</a>
+                <% } else { %>
+                  <a href="/register" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Regisztráció</a>
+                <% } %>
+              </div>
+            </div>
+            <div class="col-md-5 offset-md-1">
+              <div class="hero-photo">
+                <img src="/images/single-image3.jpg" alt="Notebook és kiegészítők egy munkaasztalon" width="640" height="603" loading="lazy">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="swiper-icon swiper-arrow swiper-arrow-prev">
+    <svg class="chevron-left"><use xlink:href="#chevron-left" /></svg>
+  </div>
+  <div class="swiper-icon swiper-arrow swiper-arrow-next">
+    <svg class="chevron-right"><use xlink:href="#chevron-right" /></svg>
+  </div>
+</section>
+
+<!-- Szolgáltatások (template: #company-services) -->
+<section id="company-services" class="padding-large">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3"><svg class="database"><use xlink:href="#database" /></svg></div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Széles választék</h3>
+            <p>Notebookok gyártó, típus és ár szerint, raktárkészlettel.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3"><svg class="quality"><use xlink:href="#quality" /></svg></div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Részletes adatok</h3>
+            <p>Kijelző, memória, háttértár, videókártya, processzor és operációs rendszer.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3"><svg class="price-tag"><use xlink:href="#price-tag" /></svg></div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Átlátható árak</h3>
+            <p>Rendezés ár szerint, átlagárak gyártónként a diagram oldalon.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 pb-3">
+        <div class="icon-box d-flex">
+          <div class="icon-box-icon pe-3 pb-3"><svg class="shield-plus"><use xlink:href="#shield-plus" /></svg></div>
+          <div class="icon-box-content">
+            <h3 class="card-title text-uppercase text-dark">Biztonságos fiók</h3>
+            <p>Titkosított jelszavak, munkamenet-alapú bejelentkezés.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Az oldal menüi -->
+<section id="latest-blog" class="padding-large">
+  <div class="container">
+    <div class="row">
+      <div class="display-header pb-3">
+        <h2 class="display-7 text-dark text-uppercase">Mit találsz az oldalon?</h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <a href="/adatbazis" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#database"></use></svg>
+            <h3 class="card-title text-uppercase">Adatbázis</h3>
+            <p>A notebookok, processzorok és operációs rendszerek táblái összekapcsolva, szűrhetően.</p>
+            <span class="badge-access">Mindenkinek</span>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <a href="/kapcsolat" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#envelope"></use></svg>
+            <h3 class="card-title text-uppercase">Kapcsolat</h3>
+            <p>Küldj üzenetet az oldal tulajdonosának – az üzenetek az adatbázisba kerülnek.</p>
+            <span class="badge-access">Mindenkinek</span>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <a href="/uzenetek" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#envelope"></use></svg>
+            <h3 class="card-title text-uppercase">Üzenetek</h3>
+            <p>Az elküldött üzenetek listája, a legfrissebb elöl, küldési idővel.</p>
+            <span class="badge-access">Bejelentkezve</span>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <a href="/diagram" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#chart"></use></svg>
+            <h3 class="card-title text-uppercase">Diagram</h3>
+            <p>Gyártók, árak, operációs rendszerek és processzorok Chart.js diagramokon.</p>
+            <span class="badge-access">Bejelentkezve</span>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <a href="/crud" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#gear"></use></svg>
+            <h3 class="card-title text-uppercase">CRUD</h3>
+            <p>Notebookok felvétele, módosítása és törlése az adatbázisban.</p>
+            <span class="badge-access admin">Csak admin</span>
+          </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <a href="<%= user ? '/user' : '/register' %>" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#user"></use></svg>
+            <h3 class="card-title text-uppercase"><%= user ? "Saját oldal" : "Regisztráció" %></h3>
+            <p><%= user ? "A fiókod adatai és a bejelentkezett felhasználóknak elérhető menük." : "Regisztrálj, hogy elérd az Üzenetek és a Diagram menüt is." %></p>
+            <span class="badge-access">Fiók</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA (template: #yearly-sale) -->
+<section id="yearly-sale" class="bg-light-blue overflow-hidden padding-medium">
+  <div class="container">
+    <div class="row d-flex flex-wrap align-items-center">
+      <div class="col-md-8">
+        <h3>Kérdésed van egy géppel kapcsolatban?</h3>
+        <h2 class="display-5 text-uppercase text-dark pb-3">Írj nekünk!</h2>
+      </div>
+      <div class="col-md-4 text-md-end">
+        <a href="/kapcsolat" class="btn btn-medium btn-dark text-uppercase btn-rounded-none">Kapcsolat</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <%- include("partials/footer") %>

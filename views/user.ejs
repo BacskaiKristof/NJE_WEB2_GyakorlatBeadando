@@ -1,4 +1,36 @@
 <%- include("partials/header") %>
-<h1>User page</h1>
-<p>Only for logged in users..</p>
+<%- include("partials/page-banner", { cim: "Saját oldal", alcim: "Csak bejelentkezett felhasználóknak." }) %>
+
+<section class="padding-small">
+  <div class="container">
+    <h2 class="mb-4">Szia, <%= user.username %>!</h2>
+    <p>Szerepkör: <strong><%= user.role === "admin" ? "admin" : "regisztrált látogató" %></strong></p>
+    <div class="row g-4 mt-1">
+      <div class="col-md-6 col-lg-4">
+        <a href="/uzenetek" class="feature-card d-block h-100">
+          <svg class="feature-icon"><use xlink:href="#envelope"></use></svg>
+          <h3 class="card-title text-uppercase">Üzenetek</h3>
+          <p>A Kapcsolat űrlapon érkezett üzenetek listája.</p>
+        </a>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <a href="/diagram" class="feature-card d-block h-100">
+          <svg class="feature-icon"><use xlink:href="#chart"></use></svg>
+          <h3 class="card-title text-uppercase">Diagram</h3>
+          <p>Statisztikák a notebook adatbázisból.</p>
+        </a>
+      </div>
+      <% if (user.role === "admin") { %>
+        <div class="col-md-6 col-lg-4">
+          <a href="/admin" class="feature-card d-block h-100">
+            <svg class="feature-icon"><use xlink:href="#gear"></use></svg>
+            <h3 class="card-title text-uppercase">Admin oldal</h3>
+            <p>Adminisztráció és a CRUD menü.</p>
+          </a>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</section>
+
 <%- include("partials/footer") %>
